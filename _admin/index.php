@@ -93,7 +93,7 @@ session_start();
 
 			$active = (isset($_POST['contest_active']) && $_POST['contest_active'] == 1 ? 1 : 0);
 
-			$title = $description = $end = $disable_countdown = '';
+			$title = $description = $end = $disable_countdown = $contest_type = '';
 			$end = '0000-00-00T00:00';
 
 			if(isset($_POST['contest_title']) && $_POST['contest_title'] != '') {
@@ -112,17 +112,25 @@ session_start();
 				$disable_countdown = mysqli_real_escape_string($db,$_POST['disable_countdown']);
 			}
 
+			// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+			if(isset($_POST['contest_type']) && $_POST['contest_type'] != '' && in_array( $_POST['contest_type'], ['five_star', 'hot_not'] ) ) {
+				$contest_type = mysqli_real_escape_string($db,$_POST['contest_type']);
+			}
+			// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
+
 			if(!$title) {
 				$contest_error_msg = 'Title is required';
 			}
 
 			if(!$contest_error_msg) {
 
+				// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
 				if(isset($extra_id) && $extra_id != '0') {
-					mysqli_query($db,"UPDATE `contest` SET `title` = '".$title."', `description` = '".$description."', `active` = '".$active."', `end` = '".$end."', `disable_countdown` = '".$disable_countdown."' WHERE `id` = '".$extra_id."' LIMIT 1");
+					mysqli_query($db,"UPDATE `contest` SET `title` = '".$title."', `description` = '".$description."', `active` = '".$active."', `end` = '".$end."', `disable_countdown` = '".$disable_countdown."', `contest_type` = '".$contest_type."' WHERE `id` = '".$extra_id."' LIMIT 1");
 				} else {
-					mysqli_query($db,"INSERT INTO `contest` (`active`,`title`,`description`,`end`,`disable_countdown`) VALUES ('".$active."','".$title."','".$description."','".$end."','".$disable_countdown."')") or die(mysqli_error($db));
+					mysqli_query($db,"INSERT INTO `contest` (`active`,`title`,`description`,`end`,`disable_countdown`, `contest_type`) VALUES ('".$active."','".$title."','".$description."','".$end."','".$disable_countdown."','".$contest_type."')") or die(mysqli_error($db));
 				}
+				//TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
 
 				header('location: index.php?page=contests');
 

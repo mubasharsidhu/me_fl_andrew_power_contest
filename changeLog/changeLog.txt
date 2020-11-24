@@ -10,6 +10,7 @@ Following Files has been changed
 
 
 v1.0
+\_admin\modules\contest.php
 \_admin\modules\ratings.php
 \_admin\index.php
 \_admin\request.php
@@ -28,3 +29,4 @@ ALTER TABLE `content` ADD `elo_nr_ratings` INT(1) NOT NULL DEFAULT '0' AFTER `el
 ALTER TABLE `content` ADD `elo_views` INT(1) NOT NULL DEFAULT '0' AFTER `elo_nr_ratings`;
 ALTER TABLE `ratings` CHANGE `rate` `rate` FLOAT NOT NULL DEFAULT '0';
 ALTER TABLE ratings ADD COLUMN rating_type ENUM('five_star','hot_not')  default 'five_star';
+ALTER TABLE `contest` ADD `contest_type` SET('five_star','hot_not') NOT NULL DEFAULT 'five_star' AFTER `disable_countdown`;

@@ -134,7 +134,10 @@ session_start();
 				'end'=>$fetch_contest['end'],
 				'description'=>$fetch_contest['description'],
 				'joined'=>$fetch_joined['total'],
-				'countdown'=>$countdown
+				'countdown'=>$countdown,
+				//TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+				'contest_type'=>$fetch_contest['contest_type']
+				//TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
 			);
 
 		}
