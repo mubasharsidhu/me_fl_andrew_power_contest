@@ -22,7 +22,7 @@
 	}
 
 	function get_ads($position) {
-			
+
 		global $db;
 
 		$privacy = (is_logged() ? 3 : 2);
@@ -47,14 +47,14 @@
 	}
 
 	if(!function_exists('imagecopymerge_alpha')) {
-	
-		function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) { 
-		
-			$cut = imagecreatetruecolor($src_w, $src_h); 
-			imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h); 
-			imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h); 
+
+		function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) {
+
+			$cut = imagecreatetruecolor($src_w, $src_h);
+			imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h);
+			imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h);
 			imagecopymerge($dst_im, $cut, $dst_x, $dst_y, 0, 0, $src_w, $src_h, $pct);
-		
+
 		}
 
 	}
@@ -83,7 +83,7 @@
 			$marge_right = imagesx($im) - $sx - 10;
 			$marge_bottom = imagesy($im) - $sy - 10;
 		}
-	
+
 		if($position == 'cc') {
 			$marge_right = (imagesx($im) - $width)/2;
 			$marge_bottom = (imagesy($im) - $height)/2;
@@ -147,31 +147,31 @@
 		return $meta_tags;
 
 	}
-	
+
 	function get_exif_photo($imagePath) {
-		
+
 		$notFound = "";
 
 		if ((isset($imagePath)) and (file_exists($imagePath)) && function_exists('exif_read_data')) {
 
 			try {
-				$exif_ifd0 = @exif_read_data($imagePath); 
+				$exif_ifd0 = @exif_read_data($imagePath);
       			} catch (Exception $exp) {
 				$exif_ifd0 = false;
-			}    
-     
+			}
+
       			if(isset($exif_ifd0['Make'])) {
         			$camMake = $exif_ifd0['Make'];
       			} else {
 				$camMake = $notFound;
 			}
-     
+
       			if(isset($exif_ifd0['Model'])) {
         			$camModel = $exif_ifd0['Model'];
       			} else {
 				$camModel = $notFound;
 			}
-     
+
      			if(isset($exif_ifd0['COMPUTED']['ApertureFNumber'])) {
         			$camExposure = $exif_ifd0['ExposureTime'];
       			} else {
@@ -183,7 +183,7 @@
       			} else {
 				$camAperture = $notFound;
 			}
-     
+
       			if(isset($exif_ifd0['DateTime'])) {
         			$camDate = $exif_ifd0['DateTime'];
 				$new_camDate = explode(' ', $camDate);
@@ -198,7 +198,7 @@
       			} else {
 				$camIso = $notFound;
 			}
-     
+
       			$return = array();
       			$return['make'] = $camMake;
       			$return['model'] = $camModel;
@@ -206,9 +206,9 @@
       			$return['aperture'] = $camAperture;
       			$return['date'] = $camDate;
       			$return['iso'] = $camIso;
-      
+
 			return $return;
-   
+
     		} else {
 
       			$return = array();
@@ -226,7 +226,7 @@
 	function crop_image($photo, $new_photo, $nw, $nh) {
 
 		list($width, $height, $type) = getimagesize($photo);
-	
+
 		if($type == 2) {
 			$typ = 'image/jpeg';
 		}
@@ -238,7 +238,7 @@
 		if($type == 1) {
 			$typ = 'image/gif';
 		}
-	
+
 		if(!isset($typ)) {
 			return false;
 		} else {
@@ -253,7 +253,7 @@
 
 				$cmp_x = $width / $newwidth;
 				$cmp_y = $height / $newheight;
-				
+
 				if ($cmp_x > $cmp_y) {
 					$src_w = round ($width / $cmp_x * $cmp_y);
 					$src_x = round (($width - ($width / $cmp_x * $cmp_y)) / 2);
@@ -264,7 +264,7 @@
 			} else {
 				$percent = min($nw / $width, $nh / $height);
 				$newwidth = floor($width * $percent);
-				$newheight = floor($height * $percent);	
+				$newheight = floor($height * $percent);
 				$src_x = $src_y = 0;
 				$src_w = $width;
 				$src_h = $height;
@@ -273,7 +273,7 @@
 			$thumb = imagecreatetruecolor($newwidth, $newheight);
 
 			$quality = 70;
-	
+
 			if($typ == 'image/jpeg') {
 				$source = imagecreatefromjpeg($photo);
 			} elseif($typ == 'image/gif') {
@@ -300,15 +300,15 @@
 		$dif = $cur_tm-$tm;
    		$pds = array('second','minute','hour','day','week','month','year','decade');
    		$lngh = array(1,60,3600,86400,604800,2630880,31570560,315705600);
-   		
+
 		for($v = sizeof($lngh)-1; ($v >= 0)&&(($no = $dif/$lngh[$v])<=1); $v--); if($v < 0) $v = 0; $_tm = $cur_tm-($dif%$lngh[$v]);
 
    		$no = floor($no);
 		if($no <> 1) $pds[$v] .='s';
 		$x=sprintf("%d %s ",$no,$pds[$v]);
-   		
+
 		if(($rcs == 1)&&($v >= 1)&&(($cur_tm-$_tm) > 0)) $x .= time_ago($_tm);
-   
+
 		return $x;
 
 	}
@@ -368,15 +368,15 @@
 			} else {
 				return array();
 			}
-		
+
 		}
 
 	}
 
-	function get_multi_contest() { 
+	function get_multi_contest() {
 
 		global $db;
-		
+
 		$sql = mysqli_query($db,"SELECT count(*) as 'total' FROM `contest` WHERE `active` = '1'");
 		$fetch = mysqli_fetch_array($sql);
 
@@ -410,7 +410,10 @@
 				'title'=>$fetch_contest['title'],
 				'description'=>$fetch_contest['description'],
 				'end'=>$fetch_contest['end'],
-				'disable_countdown'=>$fetch_contest['disable_countdown']
+				'disable_countdown'=>$fetch_contest['disable_countdown'],
+				// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+				'contest_type'=>$fetch_contest['contest_type']
+				// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
 			);
 		} else {
 			return array(
@@ -419,16 +422,19 @@
 				'title'=>'',
 				'description'=>'',
 				'end'=>'0000/00/00 00:00:00',
-				'disable_countdown'=>0
+				'disable_countdown'=>0,
+				// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+				'contest_type'=>'five_star'
+				// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
 			);
 		}
 
 	}
 
 	function get_settings($key=false) {
-		
+
 		global $db;
-		
+
 		$settings = array();
 
 		if($key) {
@@ -449,14 +455,14 @@
 
 		if(isset($_SESSION['_logged']) && $_SESSION['_logged'] == '1') {
 			return true;
-		} else { 
+		} else {
 			return false;
 		}
 
 	}
 
 	function is_my_profile($user) {
-		
+
 		if(is_logged() && isset($_SESSION['_logged_user']) && $_SESSION['_logged_user'] == $user) {
 			return true;
 		} else {
@@ -486,7 +492,7 @@
 	function my_ip() {
 
 		return $_SERVER['REMOTE_ADDR'];
-	
+
 	}
 
 	function rating_bar($rate,$scale=1) {
@@ -549,7 +555,7 @@
 
 	}
 
-	function i_rated($photo_id) { 
+	function i_rated($photo_id) {
 
 		global $db;
 
@@ -669,7 +675,7 @@
 	}
 
     	function compress_image($source, $quality) {
-        		
+
 		list($width, $height, $type, $attr) = getimagesize($source);
 
         	if($type == '2') {
@@ -679,7 +685,7 @@
        		} elseif($type == '3') {
 			$image = imagecreatefrompng($source);
         	}
-		
+
 		if($width > 1500 || $height > 1500) {
 			crop_image($source, $source, 1500, 1500);
 		} else {
@@ -729,7 +735,7 @@
 				if($final_rate > 5) {
 					$final_rate = 5;
 				}
-	
+
 			}
 
 		} else {
@@ -753,7 +759,7 @@
 		if(!isset($_GET['profile']) && !isset($_GET['contact']) && !isset($_GET['forgot']) && !isset($_GET['contests']) && !isset($_GET['photo']) && !isset($_GET['contest']) && !isset($_GET['extra_page']) && !isset($_GET['settings']) && !isset($_GET['ranking'])) {
 			return 'home';
 		}
-		
+
 		if(isset($_GET['settings'])) {
 			return 'settings';
 		}
@@ -793,7 +799,7 @@
 	}
 
 	function correct_exif_rotation($filename) {
-  
+
 		if(function_exists('exif_read_data')) {
 
     			$exif = @exif_read_data($filename);
@@ -820,16 +826,16 @@
         				}
 
         				if($deg) {
-          					$img = imagerotate($img, $deg, 0);        
+          					$img = imagerotate($img, $deg, 0);
         				}
-        					
+
 					imagejpeg($img, $filename, 95);
-      
+
 				}
 
     			}
-  
-		}    
-	
+
+		}
+
 	}
 ?>

@@ -14,8 +14,7 @@
 
 	</div>
 
-	<?php } else { ?>
-
+	<?php } else {?>
 	<div class="contest_header">
 
 		<div class="contest_header_sub">
@@ -51,144 +50,155 @@
 
 	<?php
 	// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
-	require_once 'hot_not_contest.php';
+	if ( 'hot_not' == $site_contest['contest_type'] ) {
+		require_once 'hot_not_contest.php';
+	}
 	// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
-	?>
 
-	<?php if($multi_contest == '2' && is_logged()) { ?>
+	if($multi_contest == '2' && is_logged()) { ?>
 
-	<div class="pop_my_photos">
-		<div class="pop_join_contest_box">
-			<div class="load_my_photos"></div>
-			<div class="join_contest_buttons">
-				<div class="click_join_contest"><?=_LANG_SUBMIT;?></div>
-				<div class="cancel_contest_join"><?=_LANG_CANCEL;?></div>
-			</div>
-		</div>
-	</div>
-
-	<div class="multi_contest_box">
-
-	<div class="contest_ranking">
-
-		<div class="contest_rankings_box">
-
-			<div class="c cs3 lr565 mphotos_title all_black"><?=_LANG_MY_PHOTOS;?></div>
-
-			<div class="contest_ranking_list dragscroll">
-
-			<?php
-			$place = 1;
-			if(mysqli_num_rows($sql_r05) == '0') {
-				echo '<div class="multi_contest_box_msg all_black">'._LANG_CONTEST_JOIN_NO_PHOTOS.'</div>';
-			}
-			while($fetch_r = mysqli_fetch_array($sql_r05)) {
-
-				if($fetch_r['type'] == '0') {
-					$thumb_picture = $settings['site_url'].'_uploads/_photos/'.$fetch_r['photo'].'_400.jpg';
-				}
-
-				if($fetch_r['type'] == '1') {
-					if($fetch_r['cover']) {
-						$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
-					} else {
-						$thumb_picture = $settings['site_url'].'_img/no_thumb_music.jpg';
-					}
-				}
-
-				if($fetch_r['type'] == '2') {
-					if($fetch_r['cover']) {
-						$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
-					} else {
-						$thumb_picture = $settings['site_url'].'_img/no_thumb_video.jpg';
-					}
-				}
-
-				echo '
-				<div class="contest_thumb">
-					<a href="photo-'.$fetch_r['id'].'">
-						<div class="thumb_option_place remove_contest_photo" data-id="'.$fetch_r['id'].'">&nbsp;&#10005;&nbsp;</div>
-						<img src="'.$settings['site_url'].'_uploads/_photos/'.$fetch_r['photo'].'_400.jpg" />
-					</a>
-				</div>';
-
-				$place++;
-
-			}
-			?>
-
+		<div class="pop_my_photos">
+			<div class="pop_join_contest_box">
+				<div class="load_my_photos"></div>
+				<div class="join_contest_buttons">
+					<div class="click_join_contest"><?=_LANG_SUBMIT;?></div>
+					<div class="cancel_contest_join"><?=_LANG_CANCEL;?></div>
+				</div>
 			</div>
 		</div>
 
-		<div class="open_my_photos margin_top_10"><?=_LANG_SUBMIT_PHOTO;?></div>
+		<div class="multi_contest_box">
 
-	</div>
+		<div class="contest_ranking">
 
-	</div>
+			<div class="contest_rankings_box">
 
-	<?php } ?>
+				<div class="c cs3 lr565 mphotos_title all_black"><?=_LANG_MY_PHOTOS;?></div>
 
-	<div class="contest_ranking">
+				<div class="contest_ranking_list dragscroll">
 
-		<div class="contest_ranking_box">
+				<?php
+				$place = 1;
+				if(mysqli_num_rows($sql_r05) == '0') {
+					echo '<div class="multi_contest_box_msg all_black">'._LANG_CONTEST_JOIN_NO_PHOTOS.'</div>';
+				}
+				while($fetch_r = mysqli_fetch_array($sql_r05)) {
 
-			<div class="contest_ranking_icon"><i class="fas fa-chart-line"></i></div>
-			<div class="c cs3 lr565 all_black"><?=_LANG_CONTEST_RANKING;?></div>
+					if($fetch_r['type'] == '0') {
+						$thumb_picture = $settings['site_url'].'_uploads/_photos/'.$fetch_r['photo'].'_400.jpg';
+					}
+
+					if($fetch_r['type'] == '1') {
+						if($fetch_r['cover']) {
+							$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
+						} else {
+							$thumb_picture = $settings['site_url'].'_img/no_thumb_music.jpg';
+						}
+					}
+
+					if($fetch_r['type'] == '2') {
+						if($fetch_r['cover']) {
+							$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
+						} else {
+							$thumb_picture = $settings['site_url'].'_img/no_thumb_video.jpg';
+						}
+					}
+
+					echo '
+					<div class="contest_thumb">
+						<a href="photo-'.$fetch_r['id'].'">
+							<div class="thumb_option_place remove_contest_photo" data-id="'.$fetch_r['id'].'">&nbsp;&#10005;&nbsp;</div>
+							<img src="'.$settings['site_url'].'_uploads/_photos/'.$fetch_r['photo'].'_400.jpg" />
+						</a>
+					</div>';
+
+					$place++;
+
+				}
+				?>
+
+				</div>
+			</div>
+
+			<div class="open_my_photos margin_top_10"><?=_LANG_SUBMIT_PHOTO;?></div>
 
 		</div>
 
-		<div class="contest_rankings_box">
-			<div class="contest_ranking_list dragscroll">
+		</div>
 
-			<?php
-			if(!isset($settings['min_votes'])) {
-				$settings['min_votes'] = 0;
-			}
-			if(mysqli_num_rows($sql_r04) == '0') {
-				echo '<div class="contest_no_photos show">'._LANG_CONTEST_NO_PHOTOS.'</div>';
-			}
-			while($fetch_r = mysqli_fetch_array($sql_r04)) {
+		<?php
+	} ?>
 
-				if($fetch_r['type'] == '0') {
-					$thumb_picture = $settings['site_url'].'_uploads/_photos/'.$fetch_r['photo'].'_400.jpg';
-				}
+	<?php
+	// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+	if ( 'hot_not' != $site_contest['contest_type'] ) {
+		?>
+		<div class="contest_ranking">
 
-				if($fetch_r['type'] == '1') {
-					if($fetch_r['cover']) {
-						$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
-					} else {
-						$thumb_picture = $settings['site_url'].'_img/no_thumb_music.jpg';
-					}
-				}
+			<div class="contest_ranking_box">
 
-				if($fetch_r['type'] == '2') {
-					if($fetch_r['cover']) {
-						$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
-					} else {
-						$thumb_picture = $settings['site_url'].'_img/no_thumb_video.jpg';
-					}
-				}
-
-				$place = $fetch_r['rank'];
-				$crown = '';
-				if($place == '1') {
-					$crown = '<div class="thumb_ranking_crown"><i class="fas fa-crown"></i></div>';
-				}
-
-				echo '
-				<div class="contest_thumb">
-					<a href="photo-'.$fetch_r['id'].'">
-						<div class="thumb_ranking_place">'.$place.'</div>
-						'.$crown.'
-						<img src="'.$thumb_picture.'" />
-					</a>
-				</div>';
-
-			}
-			?>
+				<div class="contest_ranking_icon"><i class="fas fa-chart-line"></i></div>
+				<div class="c cs3 lr565 all_black"><?=_LANG_CONTEST_RANKING;?></div>
 
 			</div>
-		</div>
-	</div>
 
-	<?php } ?>
+			<div class="contest_rankings_box">
+				<div class="contest_ranking_list dragscroll">
+
+				<?php
+				if(!isset($settings['min_votes'])) {
+					$settings['min_votes'] = 0;
+				}
+				if(mysqli_num_rows($sql_r04) == '0') {
+					echo '<div class="contest_no_photos show">'._LANG_CONTEST_NO_PHOTOS.'</div>';
+				}
+				while($fetch_r = mysqli_fetch_array($sql_r04)) {
+
+					if($fetch_r['type'] == '0') {
+						$thumb_picture = $settings['site_url'].'_uploads/_photos/'.$fetch_r['photo'].'_400.jpg';
+					}
+
+					if($fetch_r['type'] == '1') {
+						if($fetch_r['cover']) {
+							$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
+						} else {
+							$thumb_picture = $settings['site_url'].'_img/no_thumb_music.jpg';
+						}
+					}
+
+					if($fetch_r['type'] == '2') {
+						if($fetch_r['cover']) {
+							$thumb_picture = $settings['site_url'].'_uploads/_content_cover/'.$fetch_r['cover'].'_400.jpg';
+						} else {
+							$thumb_picture = $settings['site_url'].'_img/no_thumb_video.jpg';
+						}
+					}
+
+					$place = $fetch_r['rank'];
+					$crown = '';
+					if($place == '1') {
+						$crown = '<div class="thumb_ranking_crown"><i class="fas fa-crown"></i></div>';
+					}
+
+					echo '
+					<div class="contest_thumb">
+						<a href="photo-'.$fetch_r['id'].'">
+							<div class="thumb_ranking_place">'.$place.'</div>
+							'.$crown.'
+							<img src="'.$thumb_picture.'" />
+						</a>
+					</div>';
+
+				}
+				?>
+
+				</div>
+			</div>
+		</div>
+
+		<?php
+		// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+	}
+	// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
+
+} ?>

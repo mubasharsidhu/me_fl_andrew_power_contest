@@ -10,13 +10,18 @@ Following Files has been changed
 
 
 v1.0
+\_admin\css\style.css
 \_admin\modules\contest.php
 \_admin\modules\ratings.php
 \_admin\index.php
 \_admin\request.php
 \_core\request.php
+\_core\_functions.php
+\_css\style.css
+contests.php
 contest.php
 ranking.php
+
 
 New Files to add
 <ROOT-FOLDER>\hot_not_contest.php

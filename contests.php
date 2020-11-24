@@ -25,10 +25,20 @@
 				$total_join_sql = mysqli_query($db,"SELECT count(*) as 'total' FROM `content` WHERE `contest` = '".$fetch['id']."'");
 				$fetch_joinsql = mysqli_fetch_array($total_join_sql);
 
+				$contest_type 		= '
+				<div class="users_dash_col ratings_dash_col_3 center rating_type ' . $fetch['contest_type'] . '">
+					'. str_replace( '_', ' ', $fetch['contest_type'] ) .'
+				</div>
+				<div class="clearfix"></div>';
+
 				echo '
 				<a href="index.php?contest='.$fetch['id'].'" class="contests_item_a">
 					<div class="contests_item">
-						<div class="contests_item_title">'.$fetch['title'].'</div>
+
+						<!-- TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE -->
+						<div class="contests_item_title">'.$fetch['title']. $contest_type .'</div>
+						<!-- TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE -->
+
 						<div class="contests_item_timer new_timer" data-time="'.str_replace(' ','T',$fetch['end']).'" data-id="'.$fetch['id'].'">
 							<div class="contests_timer_1">-</div>
 							<div class="contests_timer_2">-</div>

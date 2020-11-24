@@ -1099,10 +1099,12 @@ session_start();
 				for(i=0;i<=get['contests'].length-1;i++) {
 
 					if(get['contests'][i].active == '1') {
-						var active_contest = '<div style="background:#00cc00;color:#fff;padding:5px;display:inline-block;">Active</div>';
+						var active_contest = '<div class="rating_type" style="background:#00cc00;color:#fff;padding:5px;display:inline-block;">Active</div>';
 					} else {
-						var active_contest = '<div style="background:#ff0000;color:#fff;padding:5px;display:inline-block;">Inactive</div>';
+						var active_contest = '<div class="rating_type" style="background:#ff0000;color:#fff;padding:5px;display:inline-block;">Inactive</div>';
 					}
+
+					var contest_type 		= '<div class="users_dash_col ratings_dash_col_3 center rating_type ' + get['contests'][i].contest_type + '">'+get['contests'][i].contest_type.replace("_", " ")+'</div><div class="clearfix"></div>';
 
 					var option_list = ''+
 					'<div class="relative">'+
@@ -1122,7 +1124,7 @@ session_start();
 							'</div>'+
 						'</div>'+
 						'<div class="contests_box_p2">'+
-							'<div style="font-size:14px;">'+active_contest+'</div>'+
+							'<div style="font-size:14px;">'+active_contest+contest_type+'</div>'+
 							'<div style="margin-top:15px;">'+
 								'<div class="edit_contest" style="cursor:pointer;padding-top:10px;padding-bottom:10px;font-size:14px;" data-id="'+get['contests'][i].id+'"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Edit contest</div>'+
 								'<div class="remove_contest" style="cursor:pointer;padding-top:10px;padding-bottom:10px;font-size:14px;color:#ff0000;border-top:1px solid #e1e1e1;" data-id="'+get['contests'][i].id+'">&#10005;&nbsp; Remove contest</div>'+

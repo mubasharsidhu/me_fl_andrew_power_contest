@@ -3328,3 +3328,36 @@ body {
 .margin_top20 {
 	margin-top:20px;
 }
+
+
+/* TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE */
+.hot-not-contest .contest_thumb{
+	border: 1px solid #e2e2e2;
+}
+.hot-not-contest .photo_page_share{
+	width: 100%;
+}
+.hot-not-contest div.photo_sharebox_button{
+	margin-left: 20px;
+	margin-right: 0;
+}
+.rating_type{
+	text-transform: capitalize;
+	border-radius: 5px;
+	margin-top: 4px;
+}
+.hot_not {
+	background: #e2e2e2;
+}
+.five_star {
+		background: greenyellow;
+}
+.clearfix{
+	clear: both;
+}
+.contests_item_title .rating_type {
+	float: right;
+	padding: 5px;
+	font-weight: normal;
+}
+/* TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE */

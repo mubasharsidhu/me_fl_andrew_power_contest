@@ -1,16 +1,3 @@
-<style>
-	.hot-not-contest .contest_thumb{
-		border: 1px solid #e2e2e2;
-	}
-	.hot-not-contest .photo_page_share{
-		width: 100%;
-	}
-	.hot-not-contest div.photo_sharebox_button{
-		margin-left: 20px;
-		margin-right: 0;
-	}
-</style>
-
  <div class="contest_ranking hot-not-contest" style="text-align:center; min-height:257px;">
 
     <div class="contest_rankings_box">
