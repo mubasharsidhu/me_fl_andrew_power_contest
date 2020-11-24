@@ -1,0 +1,124 @@
+* {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 13px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+input {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.users,
+.ratings,
+.categories {
+	width: 100%;
+	overflow: visible;
+	box-sizing: border-box;
+	border: 1px solid #e1e1e1;
+	height: 50px;
+}
+
+.admin_login_b {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background: #f7f7f7;
+}
+
+.admin_login_box_sub {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.admin_login_logo {
+	text-align: center;
+	letter-spacing: -1px;
+	font-size: 30px;
+	color: #222;
+	cursor: pointer;
+	user-select: none;
+}
+
+.admin_login_version {
+	text-align:center;
+	font-size:13px;
+	color:#565858;
+	margin-bottom:35px;
+}
+
+.admin_error {
+	background: #ff0000;
+	width: 320px;
+	margin: 0 auto;
+	color: #fff;
+	padding: 15px;
+	box-sizing: border-box;
+	text-align: center;
+	border-radius: 4px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.admin_login_form {
+	background: #fff;
+	border-radius: 5px;
+	box-sizing: border-box;
+	width: 320px;
+	margin: 0 auto;
+	margin-top: 15px;
+	padding: 5px;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,0.4);
+}
+
+.pad5 {
+	padding: 5px;
+}
+
+.pad5plus {
+	padding: 5px;
+	padding-top: 12px;
+}
+
+.admin_login_user {
+	padding: 15px;
+	font-size: 15px;
+	font-weight: 600;
+	border: 0;
+	border-bottom: 1px solid #e1e1e1;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.admin_login_pass {
+	padding: 15px;
+	font-size: 15px;
+	font-weight: 600;
+	border: 0;
+	border-bottom: 1px solid #e1e1e1;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.admin_login_submit {
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: 4px;
+	padding: 15px;
+	cursor: pointer;
+	background:#3b5998;
+	color:#fff;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 600;
+}

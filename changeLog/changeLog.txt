@@ -1,0 +1,30 @@
+Find the following lines in all the files, that indicates start and end of my code
+// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
+OR
+<!-- TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE -->
+<!-- TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE -->
+
+
+Following Files has been changed
+
+
+v1.0
+\_admin\modules\ratings.php
+\_admin\index.php
+\_admin\request.php
+\_core\request.php
+contest.php
+ranking.php
+
+New Files to add
+<ROOT-FOLDER>\hot_not_contest.php
+<ROOT-FOLDER>\hot_not_contest_data.php
+<ROOT-FOLDER>\includes\elo-ratings\Rating.php
+
+Following queries need to be executed:
+ALTER TABLE `content` ADD `elo_score` FLOAT NOT NULL DEFAULT '0' AFTER `cover`;
+ALTER TABLE `content` ADD `elo_nr_ratings` INT(1) NOT NULL DEFAULT '0' AFTER `elo_score`;
+ALTER TABLE `content` ADD `elo_views` INT(1) NOT NULL DEFAULT '0' AFTER `elo_nr_ratings`;
+ALTER TABLE `ratings` CHANGE `rate` `rate` FLOAT NOT NULL DEFAULT '0';
+ALTER TABLE ratings ADD COLUMN rating_type ENUM('five_star','hot_not')  default 'five_star';
