@@ -3360,4 +3360,23 @@ body {
 	padding: 5px;
 	font-weight: normal;
 }
+/* #elo-rating-div .contest_thumb {
+    width: 50%;
+} */
+.elo-main-half {
+    float: left;
+		width: 46%;
+		margin: 0 2%;
+}
+.elo-main-half .contest_thumb{
+	cursor: pointer;
+}
+.elo-main-half .social-row{
+	margin: 0 10px;
+	background: #fff;
+	width: 100%;
+	padding: 0 20px;
+	border: 1px solid #e2e2e2;
+	border-radius: 5px;
+}
 /* TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE */

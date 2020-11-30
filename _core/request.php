@@ -269,7 +269,21 @@ session_start();
 				$column_views     = 'temp.`views` as views';
 		}
 
-		$sql_rank = mysqli_query($db,"SELECT b.name,b.user,b.id as id2,`rank`,temp.`id` as id3,`iduser`,`category` as 'category_s'," . $column_nr_rating . ",".$column_rating."," . $column_views . ",`photo`,`type`,`cover` FROM (SELECT (@rank := @rank + 1) AS rank, `id`, `iduser`,`rating`,`category` as 'category_y',`nr_ratings`,`views`,`photo`,`type`,`cover`, `elo_score`, `elo_nr_ratings`, `elo_views` FROM `content` $category ORDER BY $order DESC) temp JOIN `users` b ON temp.iduser = b.id $category_s ORDER BY `rank` ASC LIMIT $offset,$limit") or die(mysqli_error($db));
+		$sql_rank_prep 	= "SELECT b.name,b.user,b.id as id2,`rank`,temp.`id` as id3,`iduser`,`category` as 'category_s'," . $column_nr_rating . ",".$column_rating."," . $column_views . ",`photo`,`type`,`cover`, temp.contest
+												FROM (
+													SELECT (@rank := @rank + 1) AS rank, `id`, `iduser`,`rating`,`category` as 'category_y',`nr_ratings`,`views`,`photo`,`type`,`cover`, `elo_score`, `elo_nr_ratings`, `elo_views`, contest
+													FROM `content` $category ORDER BY $order DESC
+												) temp
+												JOIN `users` b ON temp.iduser = b.id $category_s
+												WHERE temp.contest IN (
+													SELECT cst.id
+													FROM contest cst
+													WHERE cst.contest_type='" . $_POST['rating_type'] . "'
+												)
+												ORDER BY `rank` ASC
+												LIMIT $offset,$limit";
+
+		$sql_rank = mysqli_query($db, $sql_rank_prep) or die(mysqli_error($db));
 		// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
 
 		$tot = 0;

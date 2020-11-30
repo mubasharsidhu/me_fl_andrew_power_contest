@@ -42,7 +42,7 @@
 					<!-- TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE -->
 					<div class="ranking_filter margin_top_35">Rating Type</div>
 						<div class="ranking_filter_options">
-								<div class="ranking_filter_op ranking_filter_op_selected" data-type="rating_type" data-id="five_start">
+								<div class="ranking_filter_op ranking_filter_op_selected" data-type="rating_type" data-id="five_star">
 										<div class="ranking_filter_check"></div>
 										<div class="ranking_filter_value">Five Star</div>
 								</div>
