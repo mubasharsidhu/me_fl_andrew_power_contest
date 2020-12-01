@@ -51,9 +51,9 @@
 							<?php } ?>
 
 							<div class="photo_page_share">
-		
+
 								<div class="photo_sharebox_text"><?=_LANG_PHOTO_SHARE_THIS;?></div>
-							
+
 								<div class="photo_sharebox_button">
 									<div class="fb-share-button" data-size="large" data-href="<?=$site_url;?>photo-<?=$photo_id;?>" data-layout="button"></div>
 								</div>
@@ -63,7 +63,7 @@
 								</div>
 
 							</div>
-	
+
 						</div>
 
 						<?php if(isset($settings['allow_description']) && $settings['allow_description'] == '1') { ?>
@@ -91,11 +91,11 @@
 									<div class="add_comment"><i class="fas fa-check"></i></div>
 								</div>
 							</div>
-						
+
 							<div class="photo_comments_loading">
-								<i class="fas fa-spinner fa-spin"></i>	
+								<i class="fas fa-spinner fa-spin"></i>
 							</div>
-						
+
 							<div class="photo_comment_pending hide"><?=_LANG_COMMENTS_PENDING;?></div>
 
 							<div class="photo_comments"></div>
@@ -143,7 +143,7 @@
 										<?php } else { ?>
 											<div class="vote_button_clicked"><i class="fas fa-check"></i>&nbsp;&nbsp;<?=_LANG_VOTED_BUTTON;?></div>
 										<?php } ?>
-									</div>							
+									</div>
 									<?php } ?>
 									<?php if(!isset($settings['content_ratemode']) || (isset($settings['content_ratemode']) && $settings['content_ratemode'] == '0')) { ?>
 									<div class="profile_rating_left2 <?=($i_rated == '0' ? 'rate_active':'rate_inactive');?> extra_rating_s <?=(isset($settings['vote_own']) && $settings['vote_own'] == '0' && is_logged() && isset($_SESSION['_logged_id']) && $_SESSION['_logged_id'] == $fetch_photo['iduser'] ? 'hide':'');?>">
@@ -156,14 +156,18 @@
 										<?php } else { ?>
 											<?=rating_bar_s(round_rate($fetch_photo['rating']));?>
 										<?php } ?>
-									</div>	
+									</div>
 									<?php } ?>
 
 									<div class="clear"></div>
 
-								<?php } else { ?>
-									<div class="photo_rating_no_action"><?=_LANG_RATING_NOT_ALLOWED;?></div>
-								<?php } ?>
+								<?php } else {
+									// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+									?>
+									<!-- <div class="photo_rating_no_action"><?=_LANG_RATING_NOT_ALLOWED;?></div> -->
+									<?php
+									// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+								}?>
 
 								<div class="photo_list_board_item photo_list_board_item_current">
 									<div class="current_score_text"><?=_LANG_CURRENT_SCORE;?></div>
@@ -171,11 +175,16 @@
 								</div>
 
 							</div>
-
 						</div>
 
+						<?php
+						// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+						echo '<a href="index.php?contest='.$fetch_photo['contest'].'" class="clearfix tnsb-contest-link">View Contest</a>';
+						// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
+						?>
+
 						<?php } else { ?>
-						
+
 						<?php } ?>
 
 					</div>
@@ -186,7 +195,7 @@
 
 					<div class="clear"></div>
 					<div class="photo_information">
-				
+
 						<div class="photo_information_title"><?=_LANG_PHOTO_INFORMATION_TITLE;?></div>
 
 						<div class="photo_information_item">
@@ -227,11 +236,11 @@
 					<div class="photo_related">
 
 						<br>
-	
+
 						<?php
 						$start_i=1;
 						while($fetch_similar = mysqli_fetch_array($sql_similar_photos)) {
-							
+
 							if($fetch_similar['type'] == '0') {
 								$thumb_picture = $site_url.'_uploads/_photos/'.$fetch_similar['photo'].'_400.jpg';
 							}

@@ -32,7 +32,7 @@
 	}
 
 	if(isset($settings['random_page']) && $settings['random_page'] == '1' && isset($_GET['random']) && $_GET['random'] == '1') {
-		
+
 		$extra_sql = '';
 		if(isset($settings['vote_own']) && $settings['vote_own'] == '0' && is_logged()) {
 			$extra_sql = " `iduser` != '".$_SESSION['_logged_id']."' AND ";
@@ -65,7 +65,7 @@
 		$site_url = $settings['site_url'];
 	} else {
 		$site_url = '';
-	}		
+	}
 
 	if(isset($_GET['settings']) && !is_logged()) {
 		header('location: index.php');
@@ -109,7 +109,7 @@
 		} else {
 			$profile_rating = '0.00';
 		}
-		if($profile_rating) { 
+		if($profile_rating) {
 			$profile_rating = substr($profile_rating,0,4);
 		}
 
@@ -192,7 +192,7 @@
     					$mail->addAddress($settings['site_email'], $settings['site_logo']);
     					$mail->isHTML(true);
     					$mail->Subject = 'Contact '.$settings['site_logo'].': '.$contact_subject;
-    					$mail->Body = $contact_message; 
+    					$mail->Body = $contact_message;
     					$mail->send();
 				} catch (Exception $e) { }
 
@@ -232,7 +232,18 @@
 
 	if(isset($_GET['photo']) && $_GET['photo'] != '') {
 
-		$sql_photo = mysqli_query($db,"SELECT * FROM `content` WHERE `id` = '".mysqli_real_escape_string($db,$_GET['photo'])."' LIMIT 1");
+		// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+		$sql 	= "SELECT c.id, c.iduser, c.photo, c.date, c.description, c.category, c.approved, c.contest, c.type, c.cover, cst.contest_type,
+								IF(cst.contest_type='hot_not', c.elo_score, c.rating) as rating,
+								IF(cst.contest_type='hot_not', c.elo_nr_ratings, c.nr_ratings) as nr_ratings,
+								IF(cst.contest_type='hot_not', c.elo_views, c.views) as views
+							FROM `content` c
+							LEFT JOIN contest cst ON cst.id=c.contest
+							WHERE c.`id` = '" . mysqli_real_escape_string( $db, $_GET['photo'] ) . "'
+							LIMIT 1";
+		$sql_photo = mysqli_query($db,$sql);
+		// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
+
 		if(!mysqli_num_rows($sql_photo)) {
 			header('location: index.php');
 			die();
@@ -249,8 +260,22 @@
 
 		if($fetch_photo['contest'] != '0' || $multi_contest == '1') {
 
+			// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
+			$order 	= ( 'hot_not' == $fetch_photo['contest_type'] ) ? ' `elo_score` DESC, `elo_nr_ratings` DESC ' : ' `rating` DESC, `nr_ratings` DESC ';
+
 			mysqli_query($db,"SET @rank := 0");
-			$sql_rank = mysqli_query($db,"SELECT `rank`,`id`,`contest` FROM (SELECT (@rank := @rank + 1) AS rank, `id`, `contest` FROM `content` WHERE `contest` = '".$fetch_photo['contest']."' ORDER BY `rating` DESC, `nr_ratings` DESC) temp WHERE `id` = '".$_GET['photo']."'") or die(mysqli_error($db));
+			$sql_rank   = "SELECT `rank`,`id`,`contest`
+										FROM (
+											SELECT (@rank := @rank + 1) AS rank, `id`, `contest`
+											FROM `content`
+											WHERE `contest` = '".$fetch_photo['contest']."'
+											ORDER BY " . $order . "
+										) temp
+										WHERE `id` = '".$_GET['photo']."'";
+
+			$sql_rank   = mysqli_query($db, $sql_rank) or die(mysqli_error($db));
+			// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
+
 			$fetch_rank = mysqli_fetch_array($sql_rank);
 
 			if($settings['min_votes'] > $fetch_photo['nr_ratings']) {
@@ -326,7 +351,7 @@
 				if($_POST['set_pw_2'] != $_POST['set_pw_3']) {
 					$error_msg = _LANG_PASSWORD_MUST_MATCH;
 				} else {
-						
+
 					$set_pw_2 = mysqli_real_escape_string($db,$_POST['set_pw_2']);
 					mysqli_query($db,"UPDATE `users` SET `password` = '".hash('sha512',$set_pw_2)."' WHERE `id` = '".$new_i['id']."' LIMIT 1");
 					$success_msg = _LANG_PASSWORD_CHANGED;
@@ -356,7 +381,7 @@
 					if($_POST['set_pw_2'] != $_POST['set_pw_3']) {
 						$error_msg = _LANG_PASSWORD_MUST_MATCH;
 					} else {
-						
+
 						if(!isset($_POST['set_pw_1'])) {
 							$set_pw_2 = mysqli_real_escape_string($db,$_POST['set_pw_2']);
 							mysqli_query($db,"UPDATE `users` SET `password` = '".hash('sha512',$set_pw_2)."' WHERE `id` = '".$_SESSION['_logged_id']."' LIMIT 1");
@@ -384,14 +409,14 @@
 		if(!isset($_GET['changepw'])) {
 
 			if(isset($_POST['submit']) && isset($_POST['set_name']) && isset($_POST['set_email'])) {
-	
+
 				$ok_submit = 0;
 
 				$name = mysqli_real_escape_string($db,$_POST['set_name']);
 				$email = mysqli_real_escape_string($db,$_POST['set_email']);
 				$category = (isset($_POST['set_category']) && $_POST['set_category'] ? mysqli_real_escape_string($db,$_POST['set_category']) : 0);
 				$slogan = trim(isset($_POST['set_slogan']) && $_POST['set_slogan'] ? mysqli_real_escape_string($db,$_POST['set_slogan']) : '');
-	
+
 				$name = strip_tags($name);
 				$email = strip_tags($email);
 				$slogan = strip_tags($slogan);
@@ -432,7 +457,7 @@
 
 			$user_settings = mysqli_fetch_array($get_user_settings);
 
-		}		
+		}
 
 	}
 ?>

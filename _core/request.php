@@ -224,7 +224,7 @@ session_start();
 		if(isset($_POST['order']) && is_numeric($_POST['order'])) {
 			$col_rating     = 'rating';
 			$col_nr_ratings = 'nr_ratings';
-			$col_views      = 'elo_views';
+			$col_views      = 'views';
 			if ( 'hot_not' == $_POST['rating_type'] ) {
 				$col_rating     = 'elo_score';
 				$col_nr_ratings = 'elo_nr_ratings';
@@ -244,15 +244,13 @@ session_start();
 
 		$category = $category_s = '';
 		if(isset($_POST['category']) && is_numeric($_POST['category']) && $_POST['category'] != '-1') {
-			$category = " WHERE `category` = '".mysqli_real_escape_string($db,$_POST['category'])."' $contest AND `nr_ratings` >= '".$settings['min_votes']."' ";
-			$category_s = " WHERE temp.`category_y` = '".mysqli_real_escape_string($db,$_POST['category'])."' $contest_y ";
+			$category = " AND `category` = '".mysqli_real_escape_string($db,$_POST['category'])."' $contest AND `nr_ratings` >= '".$settings['min_votes']."' ";
+			$category_s = " AND temp.`category_y` = '".mysqli_real_escape_string($db,$_POST['category'])."' $contest_y ";
 		} else {
-			$category = " WHERE `nr_ratings` >= '".$settings['min_votes']."' $contest ";
+			$category = " AND `nr_ratings` >= '".$settings['min_votes']."' $contest ";
 		}
 
 		$return['list'] = array();
-
-		mysqli_query($db,"SET @rank := 0");
 
 		$page_nr = (isset($_POST['page_nr']) && is_numeric($_POST['page_nr']) ? mysqli_real_escape_string($db,$_POST['page_nr']) : 0);
 		$limit   = 25;
@@ -269,18 +267,24 @@ session_start();
 				$column_views     = 'temp.`views` as views';
 		}
 
+
+		mysqli_query($db,"SET @rank := 0");
 		$sql_rank_prep 	= "SELECT b.name,b.user,b.id as id2,`rank`,temp.`id` as id3,`iduser`,`category` as 'category_s'," . $column_nr_rating . ",".$column_rating."," . $column_views . ",`photo`,`type`,`cover`, temp.contest
 												FROM (
 													SELECT (@rank := @rank + 1) AS rank, `id`, `iduser`,`rating`,`category` as 'category_y',`nr_ratings`,`views`,`photo`,`type`,`cover`, `elo_score`, `elo_nr_ratings`, `elo_views`, contest
-													FROM `content` $category ORDER BY $order DESC
+													FROM `content`
+													WHERE 1=1
+													$category ORDER BY $order DESC
 												) temp
-												JOIN `users` b ON temp.iduser = b.id $category_s
-												WHERE temp.contest IN (
+												JOIN `users` b ON temp.iduser = b.id
+												WHERE 1=1
+												$category_s
+												AND temp.contest IN (
 													SELECT cst.id
 													FROM contest cst
 													WHERE cst.contest_type='" . $_POST['rating_type'] . "'
 												)
-												ORDER BY `rank` ASC
+												ORDER BY temp.`rank` ASC
 												LIMIT $offset,$limit";
 
 		$sql_rank = mysqli_query($db, $sql_rank_prep) or die(mysqli_error($db));

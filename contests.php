@@ -25,11 +25,13 @@
 				$total_join_sql = mysqli_query($db,"SELECT count(*) as 'total' FROM `content` WHERE `contest` = '".$fetch['id']."'");
 				$fetch_joinsql = mysqli_fetch_array($total_join_sql);
 
+				// TNSB_EDIT_FOR_CUSTOMIZATION_STARTS_HERE
 				$contest_type 		= '
 				<div class="users_dash_col ratings_dash_col_3 center rating_type ' . $fetch['contest_type'] . '">
 					'. str_replace( '_', ' ', $fetch['contest_type'] ) .'
 				</div>
 				<div class="clearfix"></div>';
+				// TNSB_EDIT_FOR_CUSTOMIZATION_ENDS_HERE
 
 				echo '
 				<a href="index.php?contest='.$fetch['id'].'" class="contests_item_a">
