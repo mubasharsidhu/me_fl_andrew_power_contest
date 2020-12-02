@@ -57,8 +57,8 @@
 				<div class="setting_left">Contest Type</div>
 				<div class="setting_right">
 					<select name="contest_type">
-						<option value="five_star" <?=(isset($site_contest['contest_type']) && $site_contest['contest_type'] == 'five_star' ? 'selected':'');?>>Five Star</option>
 						<option value="hot_not" <?=(isset($site_contest['contest_type']) && $site_contest['contest_type'] == 'hot_not' ? 'selected':'');?>>Hot or Not</option>
+						<option value="five_star" <?=(isset($site_contest['contest_type']) && $site_contest['contest_type'] == 'five_star' ? 'selected':'');?>>Five Star</option>
 					</select>
 				</div>
 			</div>
